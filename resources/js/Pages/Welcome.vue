@@ -3,7 +3,9 @@
     <section class="relative">
       <div class="h-screen bg-auto bg-gradient-to-br from-slate-800 to-violet-900">
         <div class="grid grid-cols-2 h-screen">
-          <div class="flex items-center justify-center text-white">TEXTO LADO ESQUERDO</div>
+          <div class="flex items-center justify-center text-white">
+            TEXTO LADO ESQUERDO
+          </div>
           <div>
             <img
               class="absolute h-screen animate-dragon"
@@ -43,5 +45,8 @@ const props = defineProps({
 
 .animate-dragon {
   animation: fly 10s ease-in-out infinite;
+}
+section {
+  overflow: hidden;
 }
 </style>
