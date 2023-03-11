@@ -9,5 +9,5 @@ import Footer from "@/Pages/Web/Layouts/Footer.vue";
   <div class="main-content">
     <slot></slot>
   </div>
-  <Footer></Footer>
+  <!-- <Footer></Footer> -->
 </template>

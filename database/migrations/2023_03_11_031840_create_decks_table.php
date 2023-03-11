@@ -11,20 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cards', function (Blueprint $table) {
+        Schema::create('decks', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name');
-            $table->string('type');
-            $table->string('frameType');
-            $table->longText('desc');
-            $table->integer('atk')->nullable();
-            $table->integer('def')->nullable();
-            $table->integer('level')->nullable();
-            $table->string('race');
-            $table->string('attribute')->nullable();
+            $table->string('slug');
 
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cards');
+        Schema::dropIfExists('decks');
     }
 };

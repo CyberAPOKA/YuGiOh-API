@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('card_images', function (Blueprint $table) {
+        Schema::create('user_cards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('card_id');
 
-            $table->string('image_url');
-            $table->string('image_url_small');
-            $table->string('image_url_cropped');
-            $table->string('attribute_image')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('card_id')->nullable();
+            $table->integer('quantity');
 
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('card_id')->references('id')->on('cards')->onDelete('cascade');
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('card_images');
+        Schema::dropIfExists('user_cards');
     }
 };

@@ -9,7 +9,6 @@ class Card extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
         'name',
         'type',
         'frameType',
@@ -34,5 +33,9 @@ class Card extends Model
     public function price()
     {
         return $this->hasMany(CardPrice::class);
+    }
+    public function user()
+    {
+        return $this->hasMany(UserCard::class, 'user_id', 'id');
     }
 }

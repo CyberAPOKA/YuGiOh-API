@@ -33,6 +33,14 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('my-cards', [YuGiOhController::class, 'myCards'])->name('my.cards');
+    Route::get('decks', [YuGiOhController::class, 'decks'])->name('decks');
+    Route::get('deck/{slug}', [YuGiOhController::class, 'deck'])
+        ->where('slug', '[a-zA-Z0-9-]+')
+        ->name('deck');
+
+    Route::get('attribute', [YuGiOhController::class, 'attribute'])->name('attribute');
 });
 
 Route::get('cards', [YuGiOhController::class, 'cards'])->name('cards');

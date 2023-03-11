@@ -5,17 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CardImage extends Model
+class UserCard extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'card_id',
-        'image_url',
-        'image_url_small',
-        'image_url_cropped',
-        'attribute_image'
+        'quantity',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function card()
     {

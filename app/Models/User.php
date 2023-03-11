@@ -58,4 +58,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function card()
+    {
+        return $this->belongsToMany(Card::class, 'user_cards', 'user_id', 'card_id')->withPivot('quantity');
+    }
+
+    public function deck()
+    {
+        return $this->hasMany(Deck::class);
+    }
 }

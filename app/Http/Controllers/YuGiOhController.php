@@ -7,8 +7,10 @@ use App\Models\CardImage;
 use App\Models\CardPrice;
 use App\Models\CardSet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use PhpParser\Node\Stmt\Return_;
+use App\Models\Deck;
 
 class YuGiOhController extends Controller
 {
@@ -21,7 +23,15 @@ class YuGiOhController extends Controller
 
         $count = 0;
         $card_properties = ['id', 'name', 'type', 'frameType', 'desc', 'atk', 'def', 'level', 'race', 'attribute'];
-
+        $attribute_images = [
+            'DARK' => 'DARK.svg',
+            'DIVINE' => 'DIVINE.svg',
+            'EARTH' => 'EARTH.svg',
+            'LIGHT' => 'LIGHT.svg',
+            'WATER' => 'WATER.svg',
+            'FIRE' => 'FIRE.svg',
+            'WIND' => 'WIND.svg',
+        ];
         foreach ($data->data as $card) {
             if ($count < 100) {
                 $card_data = [];
@@ -43,6 +53,12 @@ class YuGiOhController extends Controller
                             'image_url_small' => $card_image->image_url_small,
                             'image_url_cropped' => $card_image->image_url_cropped,
                         ];
+
+                        if ($card_data['attribute'] && isset($attribute_images[$card_data['attribute']])) {
+                            $attribute_image = 'assets/' . $card_data['attribute'] . '.svg';
+                            $card_image_data['attribute_image'] = $attribute_image;
+                        }
+
                         CardImage::create($card_image_data);
                     }
                 }
@@ -80,16 +96,48 @@ class YuGiOhController extends Controller
         }
     }
 
-
-
-
-
     public function cards()
     {
         $cards = Card::all();
 
         return Inertia::render('Yugioh/Cards', [
             'cards' => $cards
+        ]);
+    }
+
+    public function myCards()
+    {
+        $user = Auth::user();
+        $cards = Auth::user()->card()->with('image')->get();
+        return Inertia::render('Yugioh/Profile/Cards', [
+            'user' => $user,
+            'cards' => $cards
+        ]);
+    }
+
+    public function decks()
+    {
+        $user = Auth::user();
+        $decks = Auth::user()->deck()->get();
+        return Inertia::render('Yugioh/Profile/Decks', [
+            'user' => $user,
+            'decks' => $decks
+        ]);
+    }
+    public function deck($slug)
+    {
+        $deck = Deck::where('slug', $slug)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $deckCards = $deck->card()->with('image')->get();
+
+        $userCards = Auth::user()->card()->with('image')->get();
+
+        return Inertia::render('Yugioh/Profile/Deck', [
+            'deck' => $deck,
+            'deckCards' => $deckCards,
+            'userCards' => $userCards
         ]);
     }
 }
