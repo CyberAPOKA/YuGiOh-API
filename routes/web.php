@@ -4,6 +4,7 @@ use App\Http\Controllers\YuGiOhController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\TesteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ Route::middleware([
         ->where('slug', '[a-zA-Z0-9-]+')
         ->name('deck');
 
-    Route::get('attribute', [YuGiOhController::class, 'attribute'])->name('attribute');
+    Route::get('drag', [TesteController::class, 'drag'])->name('drag');
 });
 
 Route::get('cards', [YuGiOhController::class, 'cards'])->name('cards');
